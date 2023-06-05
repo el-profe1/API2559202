@@ -2,13 +2,13 @@
   "name": "api2559202",
   "version": "1.0.0",
   "description": "API para el curso de Node.js MongoDB",
-  "main": "index.js",
+  "main": "app.js",
   "engines": {
     "node": "16.x"
   },
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js",
+    "start": "node app.js",
+    "dev": "nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
