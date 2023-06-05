@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 //const { MongoClient, ObjectId } = require('mongodb');
-const routerApi = require('../routes')
+const routerApi = require('./routes')
 
 require('dotenv').config();
 
