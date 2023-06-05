@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "API para el curso de Node.js MongoDB",
   "main": "app.js",
+  "engines":{"node": "14.x"},
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js",
