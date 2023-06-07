@@ -1,6 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const { MongoClient, ObjectId } = require('mongodb');
+const response = require('../network/response');
+
 require('dotenv').config();
 
 const uri = process.env.URI;
@@ -18,13 +20,14 @@ router.get('/', async (req, res)=>{
     try {
         await client.connect();
         const movies = await client.db("sample_mflix").collection("movies").find({}).limit(10).toArray();
-        if(movies){
-            res.send(movies);
+        if(movies.length>0){
+            // res.send(movies);
+            response.sucess(req, res, "recursos encontrados", 200);//res.send(movies);
         }else{
-            res.send("No se encontro la informacion");
+            response.error(req, res, "Not found", 404);//res.send("No se encontro la informacion");
         }
-    }catch(e){
-        console.log(e);
+    // }catch(e){
+    //     console.log(e);
     }finally{
         await client.close();
     }
@@ -38,9 +41,9 @@ router.get('/:id', async (req, res)=>{
         await client.connect()
         const movie = await client.db('sample_mflix').collection('movies').findOne({_id: new ObjectId(id)})
         if(movie){
-            res.status(200).send(movie);
+            response.sucess(req, res, "recursos encontrados", 200);//res.status(200).send(movie);
         }else{
-            res.send('Not found');
+            response.error(req, res, "Not found", 404);//res.send('Not found');
         }
     }finally{
         await client.close();
@@ -55,11 +58,12 @@ router.post('/', async (req, res)=>{
     try{
         await client.connect()
         const result = await client.db('sample_mflix').collection('movies').insertOne(body);
-        res.status(201).json({
-            message: 'created',
-            data: body,
-            result
-        })
+        // res.status(201).json({ message: 'created', data: body, result })
+        if(result){
+            response.sucess(req, res, "recurso creado", 201);//res.status(200).send(movie);
+        }else{
+            response.error(req, res, "Bad Request", 400);//res.send('Not found');
+        }
     }finally{
         await client.close();
     }
@@ -73,11 +77,12 @@ router.post('/add-movies', async (req, res)=>{
         await client.connect()
         // await client.db('sample_mflix').collection('movies').insertMany(movies);
         const result = await client.db('sample_mflix').collection('movies').insertMany(movies);
-        res.status(201).json({
-            message: 'created',
-            // data: movies,
-            result
-        })
+        // res.status(201).json({message: 'created', data: movies, result})
+        if(result){
+            response.sucess(req, res, "recursos creados", 201);//res.status(200).send(movie);
+        }else{
+            response.error(req, res, "Bad Request", 400);//res.send('Not found');
+        }
     }finally{
         await client.close();
     }
@@ -92,11 +97,12 @@ router.patch('/:id', async (req, res) => {
     try{
         await client.connect()
         await client.db('sample_mflix').collection('movies').updateOne({_id: new ObjectId(id)},{$set:{title:body.title, year:body.year}})
-        res.status(200).send({
-            message: 'updated',
-            data: body,
-            id,
-          })
+        //res.status(200).send({ message: 'updated', data: body, id });
+        if(movie){
+            response.sucess(req, res, "recurso actualizado", 200);//res.status(200).send(movie);
+        }else{
+            response.error(req, res, "Bad Request", 400);//res.send('Not found');
+        }
     }finally{
         await client.close()
     }    
@@ -109,11 +115,13 @@ router.delete('/:id', async (req, res) => {
     const client = new MongoClient(uri)
     try{
         await client.connect()
-        await client.db('sample_mflix').collection('movies').deleteOne({_id: new ObjectId(id)})
-        res.status(200).json({
-            message: 'deleted',
-            id,
-          })
+        result = await client.db('sample_mflix').collection('movies').deleteOne({_id: new ObjectId(id)})
+        // res.status(200).json({ message: 'deleted', id })
+        if(result){
+            response.sucess(req, res, "recurso eliminado", 200);//res.status(200).send(movie);
+        }else{
+            response.error(req, res, "Bad Request", 400);//res.send('Not found');
+        }
     }finally{
         await client.close()
     }     
