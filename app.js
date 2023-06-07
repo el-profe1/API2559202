@@ -16,7 +16,7 @@ app.use(express.json());
 routerApi(app);
 
 //Routes
-app.get('/api/v1',(req, res)=>{
+app.get('/',(req, res)=>{
     res.send('API de peliculas 📽️');
 })
 
@@ -25,5 +25,5 @@ app.use('/*',(req, res) => {
 })
 
 app.listen(PORT, ()=>{
-    console.log(`El servidor esta escuchando en http://localhost:${PORT}/api/v1`);
+    console.log(`El servidor esta escuchando en http://localhost:${PORT}/`);
 })
