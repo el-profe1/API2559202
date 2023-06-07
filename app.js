@@ -17,7 +17,7 @@ routerApi(app);
 
 //Routes
 app.get('/api/v1',(req, res)=>{
-    res.send('API de peliculas 📽️');
+    res.send('API de Mflix 📽️');
 })
 
 app.use('/*',(req, res) => {
