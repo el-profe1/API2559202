@@ -1,0 +1,10 @@
+<h1>API de Mflix 📽️</h1>
+{{#if published}}
+    <p> {{ content }} </p>
+{{/if}}
+
+<ul>
+    {{#each comment}}
+    <li> {{ this.name }} </li>
+    {{/each}}
+</ul>

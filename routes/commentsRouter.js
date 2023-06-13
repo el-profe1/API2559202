@@ -8,6 +8,19 @@ const service = new CommentService();
  * COMMENTS
  */
 
+router.get('/ejemploHandlebars', async (req, res)=>{
+    const comment = await service.find();
+    if(comment){
+        res.status(200).render('home',{
+            content: "Renderizar un template es súper fácil usando handlebars",
+            published: true,
+            comment: comment
+        });
+    }else{
+        res.send("No se encontro la informacion");
+    }
+    })
+
 //1. CREATE
 //1.2 insertMany()
 router.post('/', async (req, res)=>{
